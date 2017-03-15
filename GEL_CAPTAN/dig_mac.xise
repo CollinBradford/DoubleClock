@@ -236,13 +236,13 @@
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="96"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
-    <file xil_pn:name="../ipcore_dir/ADDR_FIFO.xise" xil_pn:type="FILE_ISE">
+    <file xil_pn:name="../ipcore_dir/ADDR_FIFO.xise" xil_pn:type="FILE_COREGENISE">
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
-    <file xil_pn:name="../ipcore_dir/DATA_FIFO_0.xise" xil_pn:type="FILE_ISE">
+    <file xil_pn:name="../ipcore_dir/DATA_FIFO_0.xise" xil_pn:type="FILE_COREGENISE">
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
-    <file xil_pn:name="../ipcore_dir/INFO_FIFO_0.xise" xil_pn:type="FILE_ISE">
+    <file xil_pn:name="../ipcore_dir/INFO_FIFO_0.xise" xil_pn:type="FILE_COREGENISE">
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
     <file xil_pn:name="ipcore_dir/ADC_FIFO.xise" xil_pn:type="FILE_COREGENISE">
@@ -251,7 +251,7 @@
     <file xil_pn:name="ipcore_dir/ethernet_FIFO.xise" xil_pn:type="FILE_COREGENISE">
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
-    <file xil_pn:name="ipcore_dir/fifo_adc.xise" xil_pn:type="FILE_ISE">
+    <file xil_pn:name="ipcore_dir/fifo_adc.xise" xil_pn:type="FILE_COREGENISE">
       <association xil_pn:name="Implementation" xil_pn:seqID="0"/>
     </file>
   </files>
