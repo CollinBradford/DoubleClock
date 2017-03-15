@@ -1,5 +1,5 @@
 #ChipScope Pro Analyzer Project File, Version 3.0
-#Wed Mar 15 14:12:02 CDT 2017
+#Wed Mar 15 14:58:51 CDT 2017
 device.1.configFileDir=C\:\\Users\\Collin\\Fermilab\\DoubleClock\\GEL_CAPTAN
 device.1.configFilename=top_level.bit
 device.1.inserterCDCFileDir=C\:\\Users\\Collin\\Fermilab\\DoubleClock\\GEL_CAPTAN
@@ -1745,9 +1745,11 @@ unit.1.0.username=MyILA0
 unit.1.0.waveform.count=13
 unit.1.0.waveform.posn.0.channel=0
 unit.1.0.waveform.posn.0.name=/ethernet_overflow
+unit.1.0.waveform.posn.0.radix=1
 unit.1.0.waveform.posn.0.type=signal
 unit.1.0.waveform.posn.1.channel=1
 unit.1.0.waveform.posn.1.name=/b_data_we
+unit.1.0.waveform.posn.1.radix=1
 unit.1.0.waveform.posn.1.type=signal
 unit.1.0.waveform.posn.10.channel=2147483646
 unit.1.0.waveform.posn.10.name=/read_size
@@ -2017,6 +2019,7 @@ unit.1.0.waveform.posn.39.name=/psi_status<12>
 unit.1.0.waveform.posn.39.type=signal
 unit.1.0.waveform.posn.4.channel=124
 unit.1.0.waveform.posn.4.name=/XLXI_6249/out_en_sig
+unit.1.0.waveform.posn.4.radix=1
 unit.1.0.waveform.posn.4.type=signal
 unit.1.0.waveform.posn.40.channel=137
 unit.1.0.waveform.posn.40.name=/psi_status<12>
