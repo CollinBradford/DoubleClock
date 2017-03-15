@@ -1,5 +1,5 @@
 #ChipScope Pro Analyzer Project File, Version 3.0
-#Fri Mar 10 11:12:47 CST 2017
+#Fri Mar 10 17:09:41 CST 2017
 device.1.configFileDir=C\:\\Users\\Collin\\Fermilab\\DoubleClock\\GEL_CAPTAN
 device.1.configFilename=top_level.bit
 device.1.inserterCDCFileDir=C\:\\Users\\Collin\\Fermilab\\DoubleClock\\GEL_CAPTAN
@@ -44,7 +44,7 @@ unit.1.0.MFCompareB0=999
 unit.1.0.MFCount=1
 unit.1.0.MFDisplay0=0
 unit.1.0.MFEventType0=3
-unit.1.0.RunMode=SINGLE RUN
+unit.1.0.RunMode=REPETITIVE RUN
 unit.1.0.SQCondition=All Data
 unit.1.0.SQContiguous0=0
 unit.1.0.SequencerOn=0
