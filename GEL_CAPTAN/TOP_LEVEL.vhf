@@ -7,7 +7,7 @@
 -- \   \   \/     Version : 14.7
 --  \   \         Application : sch2hdl
 --  /   /         Filename : TOP_LEVEL.vhf
--- /___/   /\     Timestamp : 03/10/2017 16:49:43
+-- /___/   /\     Timestamp : 03/15/2017 13:54:35
 -- \   \  /  \ 
 --  \___\/\___\ 
 --
@@ -657,16 +657,8 @@ architecture BEHAVIORAL of TOP_LEVEL is
    signal EbufValid                 : std_logic;
    signal ethernet_data_out         : std_logic_vector (63 downto 0);
    signal ethernet_fifo_din         : std_logic_vector (15 downto 0);
-   signal ethernet_fifo_din1        : std_logic_vector (31 downto 16);
-   signal ethernet_fifo_din2        : std_logic_vector (47 downto 32);
-   signal ethernet_fifo_din3        : std_logic_vector (63 downto 48);
-   signal ethernet_fifo_din4        : std_logic_vector (63 downto 0);
    signal ethernet_fifo_empty       : std_logic;
    signal ethernet_fifo_in_en       : std_logic;
-   signal ethernet_fifo_in_en1      : std_logic;
-   signal ethernet_fifo_in_en2      : std_logic;
-   signal ethernet_fifo_in_en3      : std_logic;
-   signal ethernet_fifo_in_en4      : std_logic;
    signal ethernet_overflow         : std_logic;
    signal FADC_CAL                  : std_logic;
    signal fadc_clk_in_reset         : std_logic;
@@ -683,7 +675,6 @@ architecture BEHAVIORAL of TOP_LEVEL is
    signal fadc_debug                : std_logic_vector (63 downto 0);
    signal FADC_DELAY_MAP            : std_logic;
    signal fadc_done                 : std_logic;
-   signal fadc_fifo_data_out        : std_logic_vector (63 downto 0);
    signal FADC_MAP                  : std_logic;
    signal fadc_raddr                : std_logic_vector (9 downto 0);
    signal fadc_rdy_for_trigger      : std_logic;
@@ -758,15 +749,6 @@ architecture BEHAVIORAL of TOP_LEVEL is
    signal XLXN_15484                : std_logic_vector (63 downto 0);
    signal XLXN_15485                : std_logic;
    signal XLXN_15518                : std_logic;
-   signal XLXN_15524                : std_logic;
-   signal XLXN_15525                : std_logic;
-   signal XLXN_15529                : std_logic;
-   signal XLXN_15531                : std_logic;
-   signal XLXN_15532                : std_logic;
-   signal XLXN_15533                : std_logic;
-   signal XLXN_15552                : std_logic;
-   signal XLXN_15554                : std_logic;
-   signal XLXN_15557                : std_logic;
    signal XLXI_5338_in3_openSignal  : std_logic_vector (63 downto 0);
    signal XLXI_5338_in4_openSignal  : std_logic_vector (63 downto 0);
    signal XLXI_5338_in5_openSignal  : std_logic_vector (63 downto 0);
@@ -1063,7 +1045,7 @@ architecture BEHAVIORAL of TOP_LEVEL is
    component ethernet_FIFO
       port ( rst      : in    std_logic; 
              wr_clk   : in    std_logic; 
-             din      : in    std_logic_vector (63 downto 0); 
+             din      : in    std_logic_vector (15 downto 0); 
              wr_en    : in    std_logic; 
              full     : out   std_logic; 
              overflow : out   std_logic; 
@@ -1113,33 +1095,6 @@ architecture BEHAVIORAL of TOP_LEVEL is
              rst     : in    std_logic; 
              signals : out   std_logic_vector (7 downto 0));
    end component;
-   
-   component ADC_FIFO
-      port ( wr_clk   : in    std_logic; 
-             din      : in    std_logic_vector (15 downto 0); 
-             wr_en    : in    std_logic; 
-             full     : out   std_logic; 
-             overflow : out   std_logic; 
-             rd_clk   : in    std_logic; 
-             dout     : out   std_logic_vector (63 downto 0); 
-             rd_en    : in    std_logic; 
-             empty    : out   std_logic; 
-             valid    : out   std_logic);
-   end component;
-   
-   component VCC
-      port ( P : out   std_logic);
-   end component;
-   attribute BOX_TYPE of VCC : component is "BLACK_BOX";
-   
-   component OR4
-      port ( I0 : in    std_logic; 
-             I1 : in    std_logic; 
-             I2 : in    std_logic; 
-             I3 : in    std_logic; 
-             O  : out   std_logic);
-   end component;
-   attribute BOX_TYPE of OR4 : component is "BLACK_BOX";
    
    attribute IOBDELAY_TYPE of XLXI_3405 : label is "VARIABLE";
    attribute CLKIN_PERIOD of XLXI_3410 : label is "8.0";
@@ -1913,11 +1868,11 @@ begin
                 Q(7 downto 0)=>threshold(7 downto 0));
    
    XLXI_6248 : ethernet_FIFO
-      port map (din(63 downto 0)=>ethernet_fifo_din4(63 downto 0),
+      port map (din(15 downto 0)=>ethernet_fifo_din(15 downto 0),
                 rd_clk=>MASTER_CLK,
                 rd_en=>b_data_we,
                 rst=>reset,
-                wr_clk=>MASTER_CLK,
+                wr_clk=>FADC_DCLK,
                 wr_en=>ethernet_fifo_in_en,
                 dout(63 downto 0)=>ethernet_data_out(63 downto 0),
                 empty=>ethernet_fifo_empty,
@@ -1926,13 +1881,13 @@ begin
                 valid=>EbufValid);
    
    XLXI_6249 : PeakFinder
-      port map (clk=>MASTER_CLK,
-                data_in(15 downto 0)=>fadc_fifo_data_out(15 downto 0),
+      port map (clk=>FADC_DCLK,
+                data_in(15 downto 0)=>fadc_data_in(15 downto 0),
                 reset=>reset,
                 signal_threshold(7 downto 0)=>threshold(7 downto 0),
                 user_samples_after_trig(15 downto 0)=>read_size(15 downto 0),
                 data_out(15 downto 0)=>ethernet_fifo_din(15 downto 0),
-                out_enable=>ethernet_fifo_in_en1,
+                out_enable=>ethernet_fifo_in_en,
                 sig_compare_test=>XLXN_15485);
    
    XLXI_6251 : FD16RE_MXILINX_TOP_LEVEL
@@ -2049,61 +2004,6 @@ begin
    XLXI_6339 : OBUF
       port map (I=>EbufValid,
                 O=>open);
-   
-   XLXI_6341 : ADC_FIFO
-      port map (din(15 downto 0)=>fadc_data_in(15 downto 0),
-                rd_clk=>MASTER_CLK,
-                rd_en=>XLXN_15529,
-                wr_clk=>FADC_DCLK,
-                wr_en=>XLXN_15533,
-                dout(63 downto 0)=>fadc_fifo_data_out(63 downto 0),
-                empty=>XLXN_15531,
-                full=>XLXN_15524,
-                overflow=>XLXN_15525,
-                valid=>XLXN_15532);
-   
-   XLXI_6342 : VCC
-      port map (P=>XLXN_15533);
-   
-   XLXI_6343 : PeakFinder
-      port map (clk=>MASTER_CLK,
-                data_in(15 downto 0)=>fadc_fifo_data_out(31 downto 16),
-                reset=>reset,
-                signal_threshold(7 downto 0)=>threshold(7 downto 0),
-                user_samples_after_trig(15 downto 0)=>read_size(15 downto 0),
-                data_out(15 downto 0)=>ethernet_fifo_din1(31 downto 16),
-                out_enable=>ethernet_fifo_in_en2,
-                sig_compare_test=>XLXN_15557);
-   
-   XLXI_6344 : PeakFinder
-      port map (clk=>MASTER_CLK,
-                data_in(15 downto 0)=>fadc_fifo_data_out(47 downto 32),
-                reset=>reset,
-                signal_threshold(7 downto 0)=>threshold(7 downto 0),
-                user_samples_after_trig(15 downto 0)=>read_size(15 downto 0),
-                data_out(15 downto 0)=>ethernet_fifo_din2(47 downto 32),
-                out_enable=>ethernet_fifo_in_en3,
-                sig_compare_test=>XLXN_15554);
-   
-   XLXI_6345 : PeakFinder
-      port map (clk=>MASTER_CLK,
-                data_in(15 downto 0)=>fadc_fifo_data_out(63 downto 48),
-                reset=>reset,
-                signal_threshold(7 downto 0)=>threshold(7 downto 0),
-                user_samples_after_trig(15 downto 0)=>read_size(15 downto 0),
-                data_out(15 downto 0)=>ethernet_fifo_din3(63 downto 48),
-                out_enable=>ethernet_fifo_in_en4,
-                sig_compare_test=>XLXN_15552);
-   
-   XLXI_6346 : VCC
-      port map (P=>XLXN_15529);
-   
-   XLXI_6347 : OR4
-      port map (I0=>ethernet_fifo_in_en4,
-                I1=>ethernet_fifo_in_en3,
-                I2=>ethernet_fifo_in_en2,
-                I3=>ethernet_fifo_in_en1,
-                O=>ethernet_fifo_in_en);
    
 end BEHAVIORAL;
 

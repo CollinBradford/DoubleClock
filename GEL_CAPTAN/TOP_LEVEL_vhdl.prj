@@ -1,7 +1,6 @@
 vhdl work "D:\cbradford\DoubleClock\ipcore_dir\ADDR_FIFO.vhd"
 vhdl work "D:\cbradford\DoubleClock\ipcore_dir\DATA_FIFO_0.vhd"
 vhdl work "D:\cbradford\DoubleClock\ipcore_dir\INFO_FIFO_0.vhd"
-vhdl work "D:\cbradford\DoubleClock\GEL_CAPTAN\ipcore_dir\ADC_FIFO.vhd"
 vhdl work "D:\cbradford\DoubleClock\GEL_CAPTAN\ipcore_dir\ethernet_FIFO.vhd"
 vhdl work "D:\cbradford\DoubleClock\oei\params_package.vhd"
 vhdl work "D:\cbradford\DoubleClock\oei\user_addrs_mux.vhd"
